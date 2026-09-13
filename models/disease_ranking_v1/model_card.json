@@ -1,0 +1,56 @@
+{
+  "target": "A starting VUS becomes pathogenic/likely pathogenic at the next snapshot AND a MONDO disease is listed in that future variant record. Record-level association does not establish disease-specific causality.",
+  "classes": [
+    "MONDO:0014038",
+    "MONDO:0100062",
+    "MONDO:0015356",
+    "MONDO:0018975",
+    "MONDO:0015626",
+    "MONDO:0019625",
+    "MONDO:0007947",
+    "MONDO:0018993",
+    "MONDO:0014368",
+    "MONDO:0005045"
+  ],
+  "names": {
+    "MONDO:0014038": "Colorectal cancer, susceptibility to, 12",
+    "MONDO:0100062": "genetic developmental and epileptic encephalopathy",
+    "MONDO:0015356": "Hereditary cancer-predisposing syndrome",
+    "MONDO:0018975": "neurofibromatosis type 1",
+    "MONDO:0015626": "Charcot-Marie-Tooth disease",
+    "MONDO:0019625": "familial thoracic aortic aneurysm and aortic dissection",
+    "MONDO:0007947": "Marfan syndrome;Familial thoracic aortic aneurysm and aortic dissection",
+    "MONDO:0018993": "Charcot-Marie-Tooth disease type 2",
+    "MONDO:0014368": "tumor predisposition syndrome 3",
+    "MONDO:0005045": "hypertrophic cardiomyopathy"
+  },
+  "training_counts": {
+    "MONDO:0014038": 265,
+    "MONDO:0100062": 131,
+    "MONDO:0015356": 106,
+    "MONDO:0018975": 62,
+    "MONDO:0015626": 59,
+    "MONDO:0019625": 57,
+    "MONDO:0007947": 48,
+    "MONDO:0018993": 45,
+    "MONDO:0014368": 43,
+    "MONDO:0005045": 37
+  },
+  "score_type": "Uncalibrated SGD decision score; higher ranks first; not probability or clinical confidence.",
+  "class_selection": "Training-only support >=30 positive events; up to 20 most frequent MONDO IDs.",
+  "training_intervals": [
+    "2022-01 to 2023-01",
+    "2023-01 to 2024-01"
+  ],
+  "validation_interval": "2024-01 to 2025-01",
+  "test_interval": "2025-01 to 2026-01",
+  "test_status": "Exploratory temporal evaluation. This time interval was already examined for earlier experiments; it is not a fresh external test.",
+  "limitations": [
+    "Unreported annotations are treated as unobserved events, not confirmed disease negatives.",
+    "Only modeled MONDO categories can be ranked; this is not all possible diseases.",
+    "Gene identity can dominate ranking; performance may not generalize to unseen genes or changing annotation practices.",
+    "Overlapping variants across snapshots mean observations are not independent.",
+    "The latest snapshot inference is an extrapolation beyond the training period.",
+    "No five-class clinical variant classifier or causal protein model is trained here."
+  ]
+}

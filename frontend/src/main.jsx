@@ -1,0 +1,10 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
+import Login from './Login.jsx';
+import './integration.css';
+import '../styles.css';
+import './overrides.css';
+import './knowledge.css';
+import './science.css';
+createRoot(document.getElementById('root')).render(<Login><App /></Login>);

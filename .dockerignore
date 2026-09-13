@@ -1,0 +1,17 @@
+data
+!data/processed
+!data/processed/clingen_gene_evidence_mapped.csv.gz
+.git
+.runtime
+**/node_modules
+**/__pycache__
+frontend/dist
+notebooks
+reports
+models/baseline_v1
+models/temporal_v1
+.env*
+
+frontend/.cache
+frontend/.workspace-draft
+frontend/.npmrc

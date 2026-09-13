@@ -1,0 +1,21 @@
+split,disease_id,disease_name,train_positive_events,positive_events,rows,prevalence,average_precision,review_size,precision_at_1000,iterations
+validation,MONDO:0014038,"Colorectal cancer, susceptibility to, 12",265,0,1121932,0.0,,1000,0.0,21
+test,MONDO:0014038,"Colorectal cancer, susceptibility to, 12",265,2,1456851,1.3728239881772397e-06,0.0006975933031042902,1000,0.002,21
+validation,MONDO:0100062,genetic developmental and epileptic encephalopathy,131,39,1121932,3.4761465044227277e-05,0.02053392115972299,1000,0.023,30
+test,MONDO:0100062,genetic developmental and epileptic encephalopathy,131,0,1456851,0.0,,1000,0.0,30
+validation,MONDO:0015356,Hereditary cancer-predisposing syndrome,106,33,1121932,2.941354734511539e-05,0.0010922259964475422,1000,0.002,30
+test,MONDO:0015356,Hereditary cancer-predisposing syndrome,106,120,1456851,8.236943929063438e-05,0.0019134646435763564,1000,0.003,30
+validation,MONDO:0018975,neurofibromatosis type 1,62,21,1121932,1.8717711946891612e-05,0.024534926456755844,1000,0.01,30
+test,MONDO:0018975,neurofibromatosis type 1,62,9,1456851,6.177707946797579e-06,0.007131386400693579,1000,0.006,30
+validation,MONDO:0015626,Charcot-Marie-Tooth disease,59,24,1121932,2.1391670796447555e-05,0.030963582158488465,1000,0.02,30
+test,MONDO:0015626,Charcot-Marie-Tooth disease,59,12,1456851,8.23694392906344e-06,0.022321310905772537,1000,0.011,30
+validation,MONDO:0019625,familial thoracic aortic aneurysm and aortic dissection,57,20,1121932,1.7826392330372964e-05,0.009333113322759426,1000,0.009,23
+test,MONDO:0019625,familial thoracic aortic aneurysm and aortic dissection,57,10,1456851,6.864119940886199e-06,0.003817251087553556,1000,0.002,23
+validation,MONDO:0007947,Marfan syndrome;Familial thoracic aortic aneurysm and aortic dissection,48,14,1121932,1.2478474631261075e-05,0.006993158133288677,1000,0.007,30
+test,MONDO:0007947,Marfan syndrome;Familial thoracic aortic aneurysm and aortic dissection,48,8,1456851,5.491295952708959e-06,0.004169483885508226,1000,0.001,30
+validation,MONDO:0018993,Charcot-Marie-Tooth disease type 2,45,36,1121932,3.2087506194671336e-05,0.037907068736701834,1000,0.035,21
+test,MONDO:0018993,Charcot-Marie-Tooth disease type 2,45,5,1456851,3.4320599704430994e-06,0.003377637575187429,1000,0.002,21
+validation,MONDO:0014368,tumor predisposition syndrome 3,43,0,1121932,0.0,,1000,0.0,17
+test,MONDO:0014368,tumor predisposition syndrome 3,43,1,1456851,6.864119940886199e-07,0.001644736842105263,1000,0.001,17
+validation,MONDO:0005045,hypertrophic cardiomyopathy,37,9,1121932,8.021876548667834e-06,0.004646899915082157,1000,0.004,23
+test,MONDO:0005045,hypertrophic cardiomyopathy,37,17,1456851,1.1669003899506538e-05,0.0050712242006656656,1000,0.007,23
