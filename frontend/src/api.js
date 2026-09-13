@@ -17,8 +17,8 @@ export function errorMessage(error) {
   return error.message || 'Something went wrong. Please try again.';
 }
 export const stateLabels = {
-  vus: 'Uncertain significance', benign: 'Benign / likely benign',
-  pathogenic: 'Pathogenic / likely pathogenic', conflicting: 'Conflicting',
+  vus: 'Uncertain significance', benign: 'Benign group',
+  pathogenic: 'Pathogenic group', conflicting: 'Conflicting',
   other: 'Other', absent_grch38: 'Absent in GRCh38', present_excluded: 'Present, excluded',
 };
 

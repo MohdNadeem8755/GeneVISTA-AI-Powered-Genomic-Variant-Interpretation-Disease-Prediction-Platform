@@ -1,0 +1,560 @@
+{
+  "schema_version": 1,
+  "model_id": "variant_prediction_v1",
+  "source_snapshot": "2026-09",
+  "target": "Predict the exact recorded ClinVar class among five eligible labels from gene and parsed sequence/protein-change features. This is an exploratory annotation classifier, not a clinical diagnosis.",
+  "classes": [
+    "Pathogenic",
+    "Likely pathogenic",
+    "Uncertain significance",
+    "Likely benign",
+    "Benign"
+  ],
+  "input_fields": [
+    "gene_symbol",
+    "variant_type",
+    "name"
+  ],
+  "excluded_inputs": [
+    "clinical_significance",
+    "clinical_state",
+    "review_status",
+    "number_submitters_raw",
+    "phenotype",
+    "disease labels",
+    "VariationID",
+    "patient information"
+  ],
+  "sampling": "Deterministic approximately 10% sample by GRCh38 chromosome/start/stop locus. Exact five-label germline/unknown-origin records only; combined/conflicting labels excluded.",
+  "split": "70% training, 15% sigmoid calibration, 15% internal test, disjoint genomic loci. The loci containing examples 17660 and 37565 are reserved for test. Same genes can occur across splits; this is not external or unseen-gene validation. The test has been reused after an inner-validation model comparison; these are internal estimates, not independent external validation.",
+  "split_counts": {
+    "train": 276704,
+    "calibration": 59479,
+    "test": 59112
+  },
+  "label_counts": {
+    "train": {
+      "Uncertain significance": 163114,
+      "Likely benign": 76754,
+      "Benign": 14882,
+      "Pathogenic": 13512,
+      "Likely pathogenic": 8442
+    },
+    "calibration": {
+      "Uncertain significance": 35004,
+      "Likely benign": 16537,
+      "Benign": 3157,
+      "Pathogenic": 2952,
+      "Likely pathogenic": 1829
+    },
+    "test": {
+      "Uncertain significance": 34734,
+      "Likely benign": 16463,
+      "Benign": 3158,
+      "Pathogenic": 2910,
+      "Likely pathogenic": 1847
+    }
+  },
+  "preparation_audit": {
+    "source_rows": 4244291,
+    "excluded_non_exact_label": 286646,
+    "excluded_non_germline": 7289
+  },
+  "disease_target": "Independent estimates that a MONDO disease annotation is listed, conditional on a record having at least one MONDO annotation. Missing annotations are not confirmed disease negatives. These are not patient disease probabilities and need not sum to 100%.",
+  "disease_candidate_rule": "Up to 30 training-supported MONDO classes (at least 200 records); at least 20 calibration positives/negatives. At inference show only diseases linked to an input gene in at least three training annotations.",
+  "limitations": [
+    "Limited cached features omit population allele frequency, functional assays, segregation, zygosity, and patient phenotype.",
+    "Five-class label probabilities do not implement ACMG/AMP evidence criteria and are not evidence of clinical pathogenicity.",
+    "A base substitution alone does not specify a variant; gene, position/transcript, and other evidence matter.",
+    "Internal calibration does not establish clinical validity or patient penetrance.",
+    "Disease annotation matches can reflect investigation or reporting patterns, including for benign variants; they do not establish causality.",
+    "The requested 99% accuracy has not been established. Per-class recall is substantially lower than aggregate accuracy."
+  ],
+  "metrics": {
+    "accuracy": 0.835041954256327,
+    "balanced_accuracy": 0.5382832118428811,
+    "log_loss": 0.5458264666613847,
+    "prior_baseline_log_loss": 1.0815093509799873,
+    "multiclass_brier": 0.25928176542157083,
+    "top_label_ece": 0.01905644237538158,
+    "reliability": [
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 9,
+        "confidence": 0.2724036468565256,
+        "accuracy": 0.4444444444444444
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 1395,
+        "confidence": 0.33484416758721497,
+        "accuracy": 0.3010752688172043
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 566,
+        "confidence": 0.4462831928192428,
+        "accuracy": 0.38869257950530034
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 3606,
+        "confidence": 0.5639068705522925,
+        "accuracy": 0.5391014975041597
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 5746,
+        "confidence": 0.6590429288463542,
+        "accuracy": 0.6289592760180995
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 4370,
+        "confidence": 0.7418875799621957,
+        "accuracy": 0.7752860411899314
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 19073,
+        "confidence": 0.8667006958105421,
+        "accuracy": 0.8936192523462486
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 24347,
+        "confidence": 0.9283881215401505,
+        "accuracy": 0.9334620281759559
+      }
+    ],
+    "classification_report": {
+      "Pathogenic": {
+        "precision": 0.6248232965790218,
+        "recall": 0.7594501718213058,
+        "f1-score": 0.6855901969908484,
+        "support": 2910.0
+      },
+      "Likely pathogenic": {
+        "precision": 0.6888888888888889,
+        "recall": 0.06713589604764483,
+        "f1-score": 0.12234829797730637,
+        "support": 1847.0
+      },
+      "Uncertain significance": {
+        "precision": 0.8880173700637807,
+        "recall": 0.9419876777796972,
+        "f1-score": 0.9142066807303818,
+        "support": 34734.0
+      },
+      "Likely benign": {
+        "precision": 0.7831352071992,
+        "recall": 0.8563445301585373,
+        "f1-score": 0.8181053242419847,
+        "support": 16463.0
+      },
+      "Benign": {
+        "precision": 0.38321167883211676,
+        "recall": 0.06649778340721976,
+        "f1-score": 0.11332973556395035,
+        "support": 3158.0
+      },
+      "accuracy": 0.835041954256327,
+      "macro avg": {
+        "precision": 0.6736152883126016,
+        "recall": 0.538283211842881,
+        "f1-score": 0.5307160471008944,
+        "support": 59112.0
+      },
+      "weighted avg": {
+        "precision": 0.8126598034323038,
+        "recall": 0.835041954256327,
+        "f1-score": 0.8086592043240507,
+        "support": 59112.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        2210,
+        27,
+        451,
+        201,
+        21
+      ],
+      [
+        697,
+        124,
+        586,
+        422,
+        18
+      ],
+      [
+        533,
+        14,
+        32719,
+        1348,
+        120
+      ],
+      [
+        64,
+        13,
+        2109,
+        14098,
+        179
+      ],
+      [
+        33,
+        2,
+        980,
+        1933,
+        210
+      ]
+    ]
+  },
+  "disease_metrics": [
+    {
+      "disease_id": "MONDO:0015356",
+      "disease_name": "hereditary neoplastic syndrome",
+      "train_positive": 10639,
+      "test_positive": 2178,
+      "test_rows": 21611,
+      "average_precision": 0.797596275124318,
+      "prevalence": 0.10078200916200084,
+      "brier": 0.034467280493537825
+    },
+    {
+      "disease_id": "MONDO:0011400",
+      "disease_name": "dilated cardiomyopathy 1G",
+      "train_positive": 1623,
+      "test_positive": 309,
+      "test_rows": 21611,
+      "average_precision": 0.9806106185154978,
+      "prevalence": 0.014298274027115821,
+      "brier": 0.000617758963478158
+    },
+    {
+      "disease_id": "MONDO:0012127",
+      "disease_name": "autosomal recessive limb-girdle muscular dystrophy type 2J",
+      "train_positive": 1581,
+      "test_positive": 301,
+      "test_rows": 21611,
+      "average_precision": 0.9858856490181,
+      "prevalence": 0.013928092175281107,
+      "brier": 0.000917631048278153
+    },
+    {
+      "disease_id": "MONDO:0016575",
+      "disease_name": "primary ciliary dyskinesia",
+      "train_positive": 1553,
+      "test_positive": 360,
+      "test_rows": 21611,
+      "average_precision": 0.9682049311520405,
+      "prevalence": 0.01665818333256212,
+      "brier": 0.0016165974264774723
+    },
+    {
+      "disease_id": "MONDO:0019625",
+      "disease_name": "familial thoracic aortic aneurysm and aortic dissection",
+      "train_positive": 1539,
+      "test_positive": 314,
+      "test_rows": 21611,
+      "average_precision": 0.7479913309634051,
+      "prevalence": 0.014529637684512518,
+      "brier": 0.005830036629580043
+    },
+    {
+      "disease_id": "MONDO:0016419",
+      "disease_name": "hereditary breast carcinoma",
+      "train_positive": 1263,
+      "test_positive": 267,
+      "test_rows": 21611,
+      "average_precision": 0.6978405906081818,
+      "prevalence": 0.012354819304983573,
+      "brier": 0.005694138430829507
+    },
+    {
+      "disease_id": "MONDO:0019391",
+      "disease_name": "Fanconi anemia",
+      "train_positive": 1060,
+      "test_positive": 234,
+      "test_rows": 21611,
+      "average_precision": 0.8955662625562275,
+      "prevalence": 0.010827819166165379,
+      "brier": 0.0017667807998965458
+    },
+    {
+      "disease_id": "MONDO:0003582",
+      "disease_name": "hereditary breast ovarian cancer syndrome",
+      "train_positive": 1028,
+      "test_positive": 201,
+      "test_rows": 21611,
+      "average_precision": 0.4981750633009496,
+      "prevalence": 0.009300819027347184,
+      "brier": 0.004984698577469571
+    },
+    {
+      "disease_id": "MONDO:0004994",
+      "disease_name": "cardiomyopathy",
+      "train_positive": 941,
+      "test_positive": 221,
+      "test_rows": 21611,
+      "average_precision": 0.4017880258817666,
+      "prevalence": 0.010226273656933968,
+      "brier": 0.007157681350235508
+    },
+    {
+      "disease_id": "MONDO:0800491",
+      "disease_name": "early-infantile DEE",
+      "train_positive": 873,
+      "test_positive": 186,
+      "test_rows": 21611,
+      "average_precision": 0.9137106002454103,
+      "prevalence": 0.008606728055157095,
+      "brier": 0.0015638473652613428
+    },
+    {
+      "disease_id": "MONDO:0018772",
+      "disease_name": "Joubert syndrome",
+      "train_positive": 816,
+      "test_positive": 180,
+      "test_rows": 21611,
+      "average_precision": 0.9145568154822378,
+      "prevalence": 0.00832909166628106,
+      "brier": 0.0012579528138384332
+    },
+    {
+      "disease_id": "MONDO:0005045",
+      "disease_name": "hypertrophic cardiomyopathy",
+      "train_positive": 773,
+      "test_positive": 163,
+      "test_rows": 21611,
+      "average_precision": 0.8704724182801511,
+      "prevalence": 0.007542455231132294,
+      "brier": 0.0018960797506683434
+    },
+    {
+      "disease_id": "MONDO:0008840",
+      "disease_name": "ataxia telangiectasia",
+      "train_positive": 770,
+      "test_positive": 168,
+      "test_rows": 21611,
+      "average_precision": 0.7524302378410034,
+      "prevalence": 0.00777381888852899,
+      "brier": 0.002399864179733745
+    },
+    {
+      "disease_id": "MONDO:0018975",
+      "disease_name": "neurofibromatosis type 1",
+      "train_positive": 764,
+      "test_positive": 175,
+      "test_rows": 21611,
+      "average_precision": 0.854183333914523,
+      "prevalence": 0.008097728008884364,
+      "brier": 0.001765881386055497
+    },
+    {
+      "disease_id": "MONDO:0002442",
+      "disease_name": "long QT syndrome",
+      "train_positive": 685,
+      "test_positive": 191,
+      "test_rows": 21611,
+      "average_precision": 0.9362941466349869,
+      "prevalence": 0.008838091712553791,
+      "brier": 0.0012555604570177702
+    },
+    {
+      "disease_id": "MONDO:0009725",
+      "disease_name": "nemaline myopathy 2",
+      "train_positive": 682,
+      "test_positive": 168,
+      "test_rows": 21611,
+      "average_precision": 0.9791918982390728,
+      "prevalence": 0.00777381888852899,
+      "brier": 0.00027876431862090774
+    },
+    {
+      "disease_id": "MONDO:0021056",
+      "disease_name": "familial adenomatous polyposis 1",
+      "train_positive": 669,
+      "test_positive": 138,
+      "test_rows": 21611,
+      "average_precision": 0.8171269948210383,
+      "prevalence": 0.006385636944148813,
+      "brier": 0.0018366841033973526
+    },
+    {
+      "disease_id": "MONDO:0018921",
+      "disease_name": "Meckel syndrome",
+      "train_positive": 605,
+      "test_positive": 134,
+      "test_rows": 21611,
+      "average_precision": 0.9056548100220524,
+      "prevalence": 0.006200546018231457,
+      "brier": 0.001043836460897895
+    },
+    {
+      "disease_id": "MONDO:0019005",
+      "disease_name": "nephronophthisis",
+      "train_positive": 564,
+      "test_positive": 129,
+      "test_rows": 21611,
+      "average_precision": 0.9169941386500498,
+      "prevalence": 0.0059691823608347605,
+      "brier": 0.0009876678457300322
+    },
+    {
+      "disease_id": "MONDO:0019118",
+      "disease_name": "inherited retinal dystrophy",
+      "train_positive": 556,
+      "test_positive": 102,
+      "test_rows": 21611,
+      "average_precision": 0.2768216796498989,
+      "prevalence": 0.004719818610892601,
+      "brier": 0.003982728142836546
+    },
+    {
+      "disease_id": "MONDO:0011719",
+      "disease_name": "gastrointestinal stromal tumor",
+      "train_positive": 503,
+      "test_positive": 105,
+      "test_rows": 21611,
+      "average_precision": 0.9003252394219126,
+      "prevalence": 0.0048586368053306185,
+      "brier": 0.0011610571449073188
+    },
+    {
+      "disease_id": "MONDO:0013199",
+      "disease_name": "tuberous sclerosis 2",
+      "train_positive": 491,
+      "test_positive": 85,
+      "test_rows": 21611,
+      "average_precision": 0.74578239561507,
+      "prevalence": 0.003933182175743834,
+      "brier": 0.001299909136286488
+    },
+    {
+      "disease_id": "MONDO:0015229",
+      "disease_name": "Bardet-Biedl syndrome",
+      "train_positive": 479,
+      "test_positive": 99,
+      "test_rows": 21611,
+      "average_precision": 0.8980391052229673,
+      "prevalence": 0.0045810004164545835,
+      "brier": 0.0007944642464063405
+    },
+    {
+      "disease_id": "MONDO:0021060",
+      "disease_name": "RASopathy",
+      "train_positive": 475,
+      "test_positive": 105,
+      "test_rows": 21611,
+      "average_precision": 0.9430308338058725,
+      "prevalence": 0.0048586368053306185,
+      "brier": 0.0004847222422913713
+    },
+    {
+      "disease_id": "MONDO:0018993",
+      "disease_name": "Charcot-Marie-Tooth disease type 2",
+      "train_positive": 474,
+      "test_positive": 102,
+      "test_rows": 21611,
+      "average_precision": 0.9490779013972402,
+      "prevalence": 0.004719818610892601,
+      "brier": 0.0005482338248369587
+    },
+    {
+      "disease_id": "MONDO:0010679",
+      "disease_name": "Duchenne muscular dystrophy",
+      "train_positive": 461,
+      "test_positive": 110,
+      "test_rows": 21611,
+      "average_precision": 0.9342997637866371,
+      "prevalence": 0.005090000462727315,
+      "brier": 0.0002781924231141512
+    },
+    {
+      "disease_id": "MONDO:0011484",
+      "disease_name": "catecholaminergic polymorphic ventricular tachycardia 1",
+      "train_positive": 441,
+      "test_positive": 111,
+      "test_rows": 21611,
+      "average_precision": 0.8478486535113432,
+      "prevalence": 0.005136273194206654,
+      "brier": 0.0011416214062401054
+    },
+    {
+      "disease_id": "MONDO:0007947",
+      "disease_name": "Marfan syndrome",
+      "train_positive": 426,
+      "test_positive": 83,
+      "test_rows": 21611,
+      "average_precision": 0.8172023522519684,
+      "prevalence": 0.0038406367127851557,
+      "brier": 0.0008677964734084818
+    },
+    {
+      "disease_id": "MONDO:0019567",
+      "disease_name": "Ehlers-Danlos syndrome, classic type, 1",
+      "train_positive": 414,
+      "test_positive": 79,
+      "test_rows": 21611,
+      "average_precision": 0.9746928367683944,
+      "prevalence": 0.003655545786867799,
+      "brier": 0.00029703155668947773
+    },
+    {
+      "disease_id": "MONDO:0008763",
+      "disease_name": "Alstrom syndrome",
+      "train_positive": 403,
+      "test_positive": 68,
+      "test_rows": 21611,
+      "average_precision": 0.9446211644980785,
+      "prevalence": 0.003146545740595067,
+      "brier": 9.451723812638813e-05
+    }
+  ],
+  "disease_name_source": "Canonical MONDO names resolved from the EMBL-EBI Ontology Lookup Service; source record labels remain training annotations.",
+  "training_experiments": {
+    "selection": "Candidates compared only on a deterministic locus-disjoint 20% inner validation partition of the original training split. Macro F1 selects a candidate if improvement exceeds 0.005. Original test was previously inspected for baseline, so final scores are reused internal test estimates, not fresh external validation.",
+    "inner_train_count": 221303,
+    "inner_validation_count": 55401,
+    "candidates": [
+      {
+        "name": "linear",
+        "accuracy": 0.83953358242631,
+        "balanced_accuracy": 0.5343569010074773,
+        "macro_f1": 0.5287245222892489
+      },
+      {
+        "name": "histogram_15_0.0",
+        "accuracy": 0.8393711304850093,
+        "balanced_accuracy": 0.541900043538298,
+        "macro_f1": 0.5350441798820265
+      },
+      {
+        "name": "histogram_31_0.35",
+        "accuracy": 0.8351654302268912,
+        "balanced_accuracy": 0.5608413472809999,
+        "macro_f1": 0.5549275609993015
+      }
+    ],
+    "selected": "histogram_31_0.35",
+    "target_accuracy": 0.99,
+    "previous_test_metrics": {
+      "accuracy": 0.8365475707132224,
+      "balanced_accuracy": 0.5348829751719257
+    },
+    "final_test_metrics": {
+      "accuracy": 0.835041954256327,
+      "balanced_accuracy": 0.5382832118428811,
+      "macro_f1": 0.5307160471008944
+    }
+  }
+}

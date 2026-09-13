@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir -r backend/requirements.txt
 COPY backend/ backend/
 COPY src/ src/
 COPY models/disease_ranking_v1/ models/disease_ranking_v1/
+COPY models/variant_prediction_v1/ models/variant_prediction_v1/
 COPY data/processed/clingen_gene_evidence_mapped.csv.gz data/processed/clingen_gene_evidence_mapped.csv.gz
 COPY data/demo/genevista.sqlite data/demo/genevista.sqlite
 COPY deployment/ deployment/

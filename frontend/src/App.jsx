@@ -4,7 +4,7 @@ import { Sidebar, Stats, Results, Detail, About } from './components.jsx';
 import DnaAnimation from './DnaAnimation.jsx';
 import EvidencePanel from './EvidencePanel.jsx';
 import MolecularJourney from './MolecularJourney.jsx';
-import RankingPanel, {ModelCharts} from './RankingPanel.jsx';
+import RankingPanel, {ModelCharts,PredictionEvaluation} from './RankingPanel.jsx';
 
 export default function App() {
   const [theme,setTheme] = useState(()=>{try{return localStorage.getItem('genevista-theme')==='light'?'light':'dark';}catch{return 'dark';}});
@@ -68,7 +68,7 @@ export default function App() {
     <Sidebar motion={motion} />
     <main>
       <header className="topbar"><span>Workspace <span className="slash">/</span> <strong>Variant intelligence</strong></span><div className="topbar-status"><span className={`connection ${statsError ? 'offline' : stats ? 'online' : ''}`}>{statsError ? 'Data service unavailable' : stats ? 'Data service connected' : 'Connecting…'}</span><button className="motion-toggle" onClick={() => setMotion(value => !value)}>{motion ? 'Pause motion' : 'Play motion'}</button></div></header>
-      <section id="overview" className="intro"><div><p className="eyebrow">GENEVISTA KNOWLEDGE BASE</p><h1>Variant evidence & classification history</h1><p className="intro-copy">Explore ClinVar records and their observed classifications across six snapshots.</p><details className="dataset-facts"><summary>View dataset facts</summary><p>GRCh38 records · January 2022 to September 2026. Search by exact gene symbol or numeric VariationID. Counts describe prepared records and historical coverage.</p></details></div><span className="release">{stats ? `LATEST SNAPSHOT · ${stats.latest_snapshot}` : 'CLINVAR SNAPSHOTS'}</span></section>
+      <section id="overview" className="intro"><div><p className="eyebrow">GENEVISTA KNOWLEDGE BASE</p><h1>Variant predictions & disease annotation priorities</h1><p className="intro-copy">Inspect a predicted class, five-class estimates, ranked disease annotation matches, and the recorded evidence behind each variant.</p><details className="dataset-facts"><summary>View dataset facts</summary><p>GRCh38 records · January 2022 to September 2026. Search by exact gene symbol or numeric VariationID. Counts describe prepared records and historical coverage.</p></details></div><span className="release">{stats ? `LATEST SNAPSHOT · ${stats.latest_snapshot}` : 'CLINVAR SNAPSHOTS'}</span></section>
       {statsError && <div className="notice error" role="alert">{statsError} <button className="secondary" onClick={() => setStatsAttempt(value => value + 1)}>Retry connection</button></div>}
       {stats?.dataset_mode === 'demo' && <section className="demo-notice notice" aria-label="Demo dataset"><strong>Demo dataset · {stats.variant_count.toLocaleString()} variants</strong><p>This workspace contains a selected sample. Searches outside the sample may return no results. Counts describe the demo, while model evaluation uses the original historical cohorts.</p><details><summary>Included genes and sampling</summary><p>{stats.demo_genes.join(', ')}</p><p>{stats.scope}</p></details></section>}
       <Stats data={stats} />
@@ -86,7 +86,8 @@ export default function App() {
       <Detail selected={selected} onClose={closeDetail} onRetry={() => openDetail(selected.id)} />
       <EvidencePanel selected={selected} />
       <RankingPanel selected={selected} />
-      <ModelCharts />
+      <PredictionEvaluation />
+      <details className="legacy-experiment"><summary>Earlier VUS reclassification experiment</summary><ModelCharts /></details>
       <MolecularJourney motion={motion} theme={theme} variant={selected?.data?.latest_details} />
       <div id="sequence"><DnaAnimation variant={selected?.data?.latest_details} motion={motion} onToggleMotion={() => setMotion(value => !value)} /></div>
       <About />

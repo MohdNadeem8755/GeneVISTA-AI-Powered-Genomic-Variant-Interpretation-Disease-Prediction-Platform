@@ -12,6 +12,7 @@ from fastapi.responses import JSONResponse
 from .database import Database
 from . import auth
 from .ranking import rank, evaluation
+from .prediction import predict, bundle as prediction_bundle
 from fastapi.staticfiles import StaticFiles
 
 project_root = Path(__file__).resolve().parents[2]
@@ -19,7 +20,7 @@ database = Database(os.environ.get("GENEVISTA_DB", project_root / "data" / "app"
 app = FastAPI(
     title="GeneVISTA API",
     version="0.1.0",
-    description="Observed variant evidence and exploratory future disease-annotation rankings.",
+    description="Research five-class predictions, ranked disease annotation matches, and observed variant evidence.",
 )
 app.add_middleware(
     CORSMiddleware,
@@ -31,6 +32,13 @@ app.add_middleware(
 
 
 app.include_router(auth.router)
+
+def prediction_support(result):
+    return {'clinical_class_probability':result['status']=='available',
+            'disease_annotation_match_probability':result.get('diseases',{}).get('status')=='available',
+            'disease_probability':False,
+            'reason':'Model class and annotation-match estimates are research outputs; patient disease risk is not estimated.'}
+
 
 @app.middleware("http")
 async def workspace_access(request: Request, call_next):
@@ -79,7 +87,11 @@ def search(
     after_id: int = Query(0, ge=0, le=9223372036854775807),
 ):
     try:
-        return database.search(q, limit, after_id)
+        result = database.search(q, limit, after_id)
+        for item in result['items']:
+            item['prediction'] = predict(item.get('latest_details'), item['variation_id'], include_diseases=False)
+            item['prediction_support'] = prediction_support(item['prediction'])
+        return result
     except ValueError as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
 
@@ -97,6 +109,8 @@ def detail(variation_id: int = PathParameter(..., ge=1, le=9223372036854775807))
     result = database.detail(variation_id)
     if result is None:
         raise HTTPException(status_code=404, detail="Variant not found in the prepared timelines.")
+    result['prediction'] = predict(result.get('latest_details'), variation_id)
+    result['prediction_support'] = prediction_support(result['prediction'])
     return result
 
 
@@ -112,6 +126,13 @@ def disease_ranking(variation_id: int = PathParameter(...,ge=1,le=92233720368547
     record = database.detail(variation_id)
     if record is None: raise HTTPException(404,'Variant not found.')
     return rank(record['latest_details'])
+
+@app.get('/api/model/prediction-evaluation')
+def prediction_evaluation():
+    try:
+        return prediction_bundle()['metadata']
+    except FileNotFoundError as error:
+        raise HTTPException(503,'The research prediction model is not installed.') from error
 
 frontend_dist = project_root / 'frontend/dist'
 if frontend_dist.exists():

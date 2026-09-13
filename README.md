@@ -2,7 +2,7 @@
 
 A research workspace for ClinVar classification history, ClinGen gene–disease evidence, exploratory disease-annotation ranking, and an interactive DNA → gene → variant → protein lesson.
 
-The disease model ranks future record-level MONDO annotation events when a starting VUS becomes pathogenic/likely pathogenic. It does **not** estimate patient disease risk, diagnose a disease, or provide calibrated clinical-class probabilities. Current classifications and curated gene-level evidence remain separate from model outputs.
+The current model produces sigmoid-calibrated estimates for five exact ClinVar annotation classes and independent MONDO disease-annotation matches from gene and parsed sequence/protein-change features. It does **not** estimate patient disease risk or diagnose disease. Recorded classifications, model predictions, and gene-level curation evidence are displayed separately. The earlier VUS reclassification experiment remains available under a collapsed historical section.
 
 ## Run locally on D:
 
@@ -40,3 +40,17 @@ See [deployment/README.md](deployment/README.md). The Docker build serves the fr
 ```
 
 Build the frontend with `pnpm build`. Runtime checks use the cached SQLite database. Notebook 06 contains executed outputs and a saved-model reload check.
+
+## Five-class research predictor
+
+`src/train_variant_prediction.py` trains from the cached September 2026 clean ClinVar snapshot. It uses approximately 10% of eligible genomic loci with exact five-class labels. Training, sigmoid calibration, and internal testing use disjoint chromosome/start/stop loci (70/15/15); example loci 17660 and 37565 are reserved for testing. This is an internal snapshot experiment, not prospective or external validation.
+
+Inputs are only gene symbol, variant type, and parsed nucleotide/protein changes from the variant name. Classification, review status, submitter counts, disease names, and IDs are not model features. Training annotations still reflect ClinVar reporting and ascertainment biases.
+
+The reused internal test contains 59,112 variants: accuracy 83.50%, balanced accuracy 53.83%, macro F1 0.531. Recall for Likely pathogenic is 6.71% and for Benign is 6.65%. The requested 99% accuracy has not been established. The model is not clinically reliable for distinguishing all five classes. The UI preserves disagreements between recorded evidence and predictions.
+
+Disease percentages estimate annotation matches, conditional on a record having a MONDO annotation. Up to 30 training-supported disease categories are modeled; inference candidates require observed training support for an input gene. The percentages are independent and do not sum to 100%. They can reflect conditions being investigated, including for benign variants, and are not penetrance or patient disease risk.
+
+Artifacts and detailed metrics are in `models/variant_prediction_v1`. Canonical disease names are resolved from the EMBL-EBI MONDO ontology service and saved locally. Training can reuse `data/processed/variant_prediction_v1/cohort.joblib`. The full local database and training cache remain on D:; Docker includes the small saved predictor and the labeled demo database.
+
+To reproduce the nonlinear comparison, first run `python src/train_variant_prediction.py`, then `python src/improve_variant_prediction.py`. The second script compares a linear baseline and two histogram gradient-boosting candidates on a locus-disjoint inner validation split, selects by macro F1, refits on training data, and calibrates separately. It uses 256 training-selected features to bound memory. The original test was previously inspected; reported final scores are reused internal estimates, not external validation. Experiment measurements are saved in `models/variant_prediction_v1/training_experiments.json`.

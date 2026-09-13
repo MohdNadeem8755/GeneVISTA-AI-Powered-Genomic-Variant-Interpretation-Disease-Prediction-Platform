@@ -41,6 +41,8 @@ def provision():
     Database(target).stats()
     from backend.app.ranking import bundle
     bundle()
+    from backend.app.prediction import bundle as prediction_bundle
+    prediction_bundle()
     from backend.app.auth import enabled
     if enabled():
         if not os.environ.get('GENEVISTA_USERNAME') or not re.fullmatch('[0-9a-f]{32}:[0-9a-f]{128}',os.environ.get('GENEVISTA_PASSWORD_HASH','')):

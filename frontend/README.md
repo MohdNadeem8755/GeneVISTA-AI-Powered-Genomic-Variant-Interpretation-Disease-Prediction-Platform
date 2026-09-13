@@ -15,6 +15,6 @@ Run the backend from `D:\GeneVISTA` with `D:\AncondaAPP\python.exe -m uvicorn ba
 
 Local development defaults to unauthenticated research mode. See the root README for enabling the workspace account. Authentication, session expiry, and logout are enforced by the backend.
 
-Ranking scores are uncalibrated and apply only to eligible VUS records. They are not disease-risk probabilities or clinical diagnoses. The charts display average precision, event prevalence, and positive support from saved temporal evaluation.
+The main workspace shows one predicted class, five model class estimates, and ranked disease-annotation match percentages from the current research model. Recorded ClinVar labels are shown exactly. Patient disease risk is not estimated. Evaluation displays per-class weaknesses and model-versus-recorded disagreements. The earlier uncalibrated VUS experiment is retained in a collapsed historical section.
 
 Local caches and draft directories are ignored by Git. Keep local package caches on D: using the store option above.

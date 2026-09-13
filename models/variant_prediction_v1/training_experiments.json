@@ -1,0 +1,37 @@
+{
+  "selection": "Candidates compared only on a deterministic locus-disjoint 20% inner validation partition of the original training split. Macro F1 selects a candidate if improvement exceeds 0.005. Original test was previously inspected for baseline, so final scores are reused internal test estimates, not fresh external validation.",
+  "inner_train_count": 221303,
+  "inner_validation_count": 55401,
+  "candidates": [
+    {
+      "name": "linear",
+      "accuracy": 0.83953358242631,
+      "balanced_accuracy": 0.5343569010074773,
+      "macro_f1": 0.5287245222892489
+    },
+    {
+      "name": "histogram_15_0.0",
+      "accuracy": 0.8393711304850093,
+      "balanced_accuracy": 0.541900043538298,
+      "macro_f1": 0.5350441798820265
+    },
+    {
+      "name": "histogram_31_0.35",
+      "accuracy": 0.8351654302268912,
+      "balanced_accuracy": 0.5608413472809999,
+      "macro_f1": 0.5549275609993015
+    }
+  ],
+  "selected": "histogram_31_0.35",
+  "target_accuracy": 0.99,
+  "previous_test_metrics": {
+    "accuracy": 0.8365475707132224,
+    "balanced_accuracy": 0.5348829751719257
+  },
+  "final_test_metrics": {
+    "accuracy": 0.835041954256327,
+    "balanced_accuracy": 0.5382832118428811,
+    "macro_f1": 0.5307160471008944
+  },
+  "achieved_99_percent": false
+}

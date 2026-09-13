@@ -22,7 +22,7 @@ Run `D:\AncondaAPP\python.exe D:\GeneVISTA\deployment\password_hash.py` to gener
 
 ## Demo scope
 
-The builder selects up to 50 variants per gene and grouped classification for 20 named genes, plus the existing example IDs. Their stored variant details, gene links, and six-snapshot timelines are copied exactly. This is a selected demo, not a representative sample. The UI labels it and reports only demo record counts. The disease model and temporal evaluation remain the originally trained full-cohort results.
+The builder selects up to 50 variants per gene and grouped classification for 20 named genes, plus the existing example IDs. Their stored variant details, gene links, and six-snapshot timelines are copied exactly. This is a selected demo, not a representative sample. The UI labels it and reports only demo record counts. The five-class predictor uses its separately documented sampled training/calibration/test cohorts, not this deployment demo. Its estimates and per-class limitations are shown in the UI. The earlier temporal experiment retains its original evaluation cohorts.
 
 Rebuild locally with `D:\AncondaAPP\python.exe deployment/build_demo.py`. The source database is attached in read-only mode and never modified. Commit the resulting small `data/demo/genevista.sqlite` file to update the deployment sample.
 

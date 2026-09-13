@@ -21,3 +21,5 @@ frontend/.npmrc
 !data/demo/
 data/demo/*
 !data/demo/genevista.sqlite
+
+!models/variant_prediction_v1/
