@@ -39,6 +39,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Run Datadog Synthetic tests
+      if: ${{ env.DD_API_KEY != '' && env.DD_APP_KEY != '' }}
       uses: DataDog/synthetics-ci-github-action@87b505388a22005bb8013481e3f73a367b9a53eb
       with:
         api_key: ${{ secrets.DD_API_KEY }}
