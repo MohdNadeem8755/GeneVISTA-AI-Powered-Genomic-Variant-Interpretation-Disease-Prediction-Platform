@@ -17,3 +17,7 @@ reports/
 models/*
 !models/disease_ranking_v1/
 frontend/.npmrc
+
+!data/demo/
+data/demo/*
+!data/demo/genevista.sqlite

@@ -1,9 +1,10 @@
-"""Provision a checksummed database onto Render's persistent disk, then serve."""
+"""Validate the bundled demo or provision an optional full database, then serve."""
 import hashlib
 import os
 from pathlib import Path
 import re
 import sqlite3
+from contextlib import closing
 import sys
 import urllib.request
 
@@ -33,7 +34,7 @@ def provision():
         with target.open('rb') as source:
             if hashlib.file_digest(source,'sha256').hexdigest()!=expected:
                 raise RuntimeError('Installed database checksum differs from configured version.')
-    with sqlite3.connect(target.as_uri()+'?mode=ro',uri=True) as connection:
+    with closing(sqlite3.connect(target.as_uri()+'?mode=ro',uri=True)) as connection:
         if connection.execute('PRAGMA quick_check').fetchone()[0]!='ok':
             raise RuntimeError('Database integrity check failed.')
     from backend.app.database import Database

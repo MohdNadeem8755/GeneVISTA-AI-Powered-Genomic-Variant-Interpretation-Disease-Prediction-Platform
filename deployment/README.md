@@ -1,15 +1,33 @@
-# Render deployment
+# Free Render demo
 
-1. Push this repository, then create a Render Blueprint from `render.yaml`. It uses a paid Starter service and a 5 GB persistent disk; review the current plan cost before creating it.
-2. Provision the full `data/app/genevista.sqlite` database separately. GitHub cannot store this 1.4 GB file in normal Git. Upload it to storage you control and provide a direct HTTPS download URL as `GENEVISTA_DB_URL`, or copy it to `/var/data/genevista.sqlite` on the Render disk before starting. A temporary signed URL is acceptable for first provisioning; keep a reproducible copy available for disk replacement.
-3. Calculate the local file checksum with `Get-FileHash D:\GeneVISTA\data\app\genevista.sqlite -Algorithm SHA256` and set `GENEVISTA_DB_SHA256`. Downloads are checked before activation. Existing data is verified against the configured checksum at startup.
-4. Run `D:\AncondaAPP\python.exe deployment/password_hash.py`. Set the resulting hash and a chosen username in `GENEVISTA_PASSWORD_HASH` and `GENEVISTA_USERNAME`. Keep authentication enabled and secure cookies enabled on Render.
-5. Deploy. Startup validates the database and model before serving. Open the Render URL, sign in, search BRCA1, select a VUS, and verify its ranking and the evaluation charts. `/health` exposes readiness without credentials; the data APIs require a session.
+The default Docker image includes a small read-only database extracted from the cached full dataset. No paid disk, external database upload, download URL, or checksum environment variable is required. The full local dataset remains at `D:\GeneVISTA\data\app\genevista.sqlite`.
 
-The frontend and API share an origin. No production API URL or cross-site cookie setup is required. One server worker is intentional because sessions and rate limits are stored in memory. Restarts invalidate sessions. The persistent disk stores only the read-only scientific database. Increase the service memory if the measured workload needs it.
+## Render setup
 
-To change the database version, replace the disk file and update its checksum together. A changed URL alone does not overwrite an existing database.
+Use the GeneVISTA GitHub repository, branch `main`, runtime **Docker**, empty Root Directory, Dockerfile `./Dockerfile`, and the **Free** instance. Set the health check path to `/health` under Advanced.
 
-Reference: https://render.com/docs/blueprint-spec
+Set these environment variables:
 
-Current cached database SHA-256: `369094a1b332590821a98489eb2fe6158572c2eb0550183560b157945ebf082f`. Recompute this if the data changes.
+| Name | Value |
+| --- | --- |
+| GENEVISTA_USERNAME | Your chosen workspace login name |
+| GENEVISTA_PASSWORD_HASH | Output of the local password hash utility |
+| GENEVISTA_AUTH_ENABLED | true |
+| GENEVISTA_COOKIE_SECURE | true |
+| GENEVISTA_DB | /app/data/demo/genevista.sqlite |
+
+Remove any old `GENEVISTA_DB_URL` and `GENEVISTA_DB_SHA256` variables. Replace an old `/var/data/genevista.sqlite` path with the demo path above. Leave Docker Command empty. Do not add a persistent disk.
+
+Run `D:\AncondaAPP\python.exe D:\GeneVISTA\deployment\password_hash.py` to generate the salted login hash. Paste the hash into Render, never the original password. Use the original password to log in to the deployed app. Credentials remain private; the repository does not include a default password.
+
+## Demo scope
+
+The builder selects up to 50 variants per gene and grouped classification for 20 named genes, plus the existing example IDs. Their stored variant details, gene links, and six-snapshot timelines are copied exactly. This is a selected demo, not a representative sample. The UI labels it and reports only demo record counts. The disease model and temporal evaluation remain the originally trained full-cohort results.
+
+Rebuild locally with `D:\AncondaAPP\python.exe deployment/build_demo.py`. The source database is attached in read-only mode and never modified. Commit the resulting small `data/demo/genevista.sqlite` file to update the deployment sample.
+
+## Free service behavior
+
+Render can spin down idle free services. Opening the app after inactivity may require waiting for startup and using Retry. Sessions are kept in server memory, so a restart signs users out. The database is part of the image and is restored with each deployment. See https://render.com/docs/free.
+
+A live Render deployment still requires connecting the repository and entering your private login variables. Local startup checks do not verify Render's Docker build or service availability.

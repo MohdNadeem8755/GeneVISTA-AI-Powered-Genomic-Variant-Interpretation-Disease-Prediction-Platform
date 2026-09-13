@@ -2,16 +2,12 @@ services:
   - type: web
     name: genevista
     runtime: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile
     healthCheckPath: /health
-    disk:
-      name: genevista-data
-      mountPath: /var/data
-      sizeGB: 5
     envVars:
       - key: GENEVISTA_DB
-        value: /var/data/genevista.sqlite
+        value: /app/data/demo/genevista.sqlite
       - key: GENEVISTA_AUTH_ENABLED
         value: "true"
       - key: GENEVISTA_COOKIE_SECURE
@@ -19,8 +15,4 @@ services:
       - key: GENEVISTA_USERNAME
         sync: false
       - key: GENEVISTA_PASSWORD_HASH
-        sync: false
-      - key: GENEVISTA_DB_URL
-        sync: false
-      - key: GENEVISTA_DB_SHA256
         sync: false

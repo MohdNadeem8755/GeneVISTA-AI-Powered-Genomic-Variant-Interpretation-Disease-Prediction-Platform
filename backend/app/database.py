@@ -35,6 +35,8 @@ class Database:
             "timeline_count": int(metadata["timeline_count"]),
             "gene_symbol_link_count": int(metadata["gene_symbol_link_count"]),
             "scope": metadata["scope"],
+            "dataset_mode": metadata.get("dataset_mode", "full"),
+            "demo_genes": json.loads(metadata.get("demo_genes", "[]")),
         }
 
     def timeline(self, variant_id):

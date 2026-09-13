@@ -31,7 +31,7 @@ For local login testing set `GENEVISTA_AUTH_ENABLED=true` and `GENEVISTA_COOKIE_
 
 ## Deploy to Render
 
-See [deployment/README.md](deployment/README.md). The Docker build serves the frontend and API together. The Blueprint configures authentication, health checks, and a persistent database disk. Full data and caches stay out of Git. The small trained disease model and prepared ClinGen evidence are versioned.
+See [deployment/README.md](deployment/README.md). The Docker build serves the frontend and API together on a Free service. A bundled, clearly labeled demo database needs no external download or paid disk. The Blueprint configures authentication and health checks. Full local data and caches stay out of Git; the small demo database, trained model, and prepared ClinGen evidence are versioned.
 
 ## Verification
 

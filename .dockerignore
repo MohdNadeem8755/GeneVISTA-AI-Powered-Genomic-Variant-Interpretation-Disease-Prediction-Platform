@@ -1,6 +1,10 @@
-data
-!data/processed
+data/**
+!data/processed/
+data/processed/**
 !data/processed/clingen_gene_evidence_mapped.csv.gz
+!data/demo/
+data/demo/**
+!data/demo/genevista.sqlite
 .git
 .runtime
 **/node_modules
