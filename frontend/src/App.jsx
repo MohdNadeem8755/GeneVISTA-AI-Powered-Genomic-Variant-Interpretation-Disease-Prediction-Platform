@@ -3,6 +3,7 @@ import { fetchApi, errorMessage } from './api.js';
 import { Sidebar, Stats, Results, Detail, About } from './components.jsx';
 import DnaAnimation from './DnaAnimation.jsx';
 import EvidencePanel from './EvidencePanel.jsx';
+import AnnotationPrediction from './AnnotationPrediction.jsx';
 import MolecularJourney from './MolecularJourney.jsx';
 import RankingPanel, {ModelCharts,PredictionEvaluation} from './RankingPanel.jsx';
 
@@ -85,6 +86,7 @@ export default function App() {
       <Results result={result} loading={searching} onMore={() => runSearch(result.query, true)} onSelect={openDetail} />
       <Detail selected={selected} onClose={closeDetail} onRetry={() => openDetail(selected.id)} />
       <EvidencePanel selected={selected} />
+      <AnnotationPrediction selected={selected} />
       <RankingPanel selected={selected} />
       <PredictionEvaluation />
       <details className="legacy-experiment"><summary>Earlier VUS reclassification experiment</summary><ModelCharts /></details>

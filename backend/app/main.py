@@ -13,6 +13,7 @@ from .database import Database
 from . import auth
 from .ranking import rank, evaluation
 from .prediction import predict, bundle as prediction_bundle
+from .annotation_prediction import predict as annotation_predict
 from fastapi.staticfiles import StaticFiles
 
 project_root = Path(__file__).resolve().parents[2]
@@ -133,6 +134,13 @@ def prediction_evaluation():
         return prediction_bundle()['metadata']
     except FileNotFoundError as error:
         raise HTTPException(503,'The research prediction model is not installed.') from error
+
+@app.get('/api/variants/{variation_id}/annotation-prediction')
+def annotation_prediction(variation_id: int):
+    record = database.detail(variation_id)
+    if record is None:
+        raise HTTPException(404, 'Variant not found.')
+    return annotation_predict(record.get('latest_details'), variation_id)
 
 frontend_dist = project_root / 'frontend/dist'
 if frontend_dist.exists():
