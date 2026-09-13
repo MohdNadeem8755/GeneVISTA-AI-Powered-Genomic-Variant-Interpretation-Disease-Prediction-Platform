@@ -4,6 +4,7 @@ import { Sidebar, Stats, Results, Detail, About } from './components.jsx';
 import DnaAnimation from './DnaAnimation.jsx';
 import EvidencePanel from './EvidencePanel.jsx';
 import AnnotationPrediction from './AnnotationPrediction.jsx';
+import AnnotationEvaluation from './AnnotationEvaluation.jsx';
 import MolecularJourney from './MolecularJourney.jsx';
 import RankingPanel, {ModelCharts,PredictionEvaluation} from './RankingPanel.jsx';
 
@@ -88,6 +89,7 @@ export default function App() {
       <EvidencePanel selected={selected} />
       <AnnotationPrediction selected={selected} />
       <RankingPanel selected={selected} />
+      <AnnotationEvaluation />
       <PredictionEvaluation />
       <details className="legacy-experiment"><summary>Earlier VUS reclassification experiment</summary><ModelCharts /></details>
       <MolecularJourney motion={motion} theme={theme} variant={selected?.data?.latest_details} />

@@ -142,6 +142,14 @@ def annotation_prediction(variation_id: int):
         raise HTTPException(404, 'Variant not found.')
     return annotation_predict(record.get('latest_details'), variation_id)
 
+@app.get('/api/model/annotation-evaluation')
+def annotation_evaluation():
+    import json
+    card = project_root / 'models/annotation_prediction_v2/model_card.json'
+    if not card.is_file():
+        return {'status': 'not_configured'}
+    return json.loads(card.read_text(encoding='utf-8'))
+
 frontend_dist = project_root / 'frontend/dist'
 if frontend_dist.exists():
     app.mount('/', StaticFiles(directory=frontend_dist,html=True),name='frontend')
