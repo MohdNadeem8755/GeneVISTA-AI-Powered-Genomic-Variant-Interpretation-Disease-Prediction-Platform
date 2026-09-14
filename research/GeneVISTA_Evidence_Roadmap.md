@@ -76,7 +76,7 @@ Direct TP53 files linked by the primary paper:
 
 These links were verified from the publication; workbook contents have not yet been imported or audited locally. The current CSpec attachments take precedence if they update the published supplements. Record licences and permissions per dataset before redistribution; a public download is not a universal licence for clinical or commercial use.
 
-A concrete public BRCA1 dataset is MaveDB score set urn:mavedb:00000097-0-2. Its metadata describes 3,893 variants, source transcript NM_007294.3, functional/RNA measurements and a CC0 licence. Metadata and documented public API access were checked; the score CSV has not yet been imported. Public reads require no API key.[9]
+A concrete public BRCA1 dataset is MaveDB score set urn:mavedb:00000097-0-2. Its metadata describes 3,893 variants, source transcript NM_007294.3, functional/RNA measurements and a CC0 licence. GeneVISTA now imports 2,803 exact coding SNVs into a compact evidence package; 1,090 intronic splice rows remain explicitly out of scope. The transcript coding sequences NM_007294.3 and .4 were checked before matching. Public reads require no API key.[9]
 
 - [BRCA1 score-set metadata](https://api.mavedb.org/api/v1/score-sets/urn:mavedb:00000097-0-2)
 - [BRCA1 functional/RNA scores CSV](https://api.mavedb.org/api/v1/score-sets/urn:mavedb:00000097-0-2/scores)
@@ -97,7 +97,7 @@ In parallel, conduct a bounded ML ablation using the current file: existing 11 f
 
 Do not choose a feature or threshold using the already evaluated test set. Register a new protocol and lock all model, criterion, calibration and decision choices before a genuinely independent evaluation. A historical split is not automatically leakage-free if modern source predictors were trained on later labels. Source model training lists, assay controls, overlapping codons, related families and assertion dates require an overlap audit. If independence cannot be established, label the result retrospective research concordance.
 
-A successful rule-reproduction test is evidence that the software follows the specification. It is not independent evidence that the specification or model is clinically accurate. Report these two evaluations separately.
+A successful rule-reproduction test is evidence that the software follows the specification. It is not independent evidence that the specification or model is clinically accurate. Report these two evaluations separately. The BRCA1 MaveDB panel follows the same rule: it shows measured assay evidence and a calibrated research criterion candidate, while leaving the five-class label and patient risk unset.
 
 **7. What a credible 99% claim would require**
 
@@ -124,7 +124,7 @@ GeneVISTA can present disease associations and, with suitable evidence, prioriti
 
 **9. Recommended next deliverable**
 
-Build a versioned TP53 evidence prototype and a transparent dataset manifest on D:, together with a BRCA2 functional-evidence feasibility check. Obtain the small public supplemental datasets first. Quantify how many exact variants have sufficient applicable evidence, and distinguish known expert assertions, rule-derived research classifications and unresolved inputs.
+Build versioned TP53 and BRCA1 evidence prototypes and transparent dataset manifests on D:, together with a BRCA2 functional-evidence feasibility check. The TP53 and BRCA1 pilots now quantify exact-variant coverage and distinguish source assertions, research criterion candidates and unresolved inputs.
 
 The first acceptance criteria should be correct mapping, reproducible evidence rules, explicit dependencies and error accounting. The next gate is external expert assessment on independent cases. Only measured evaluation can decide whether any carefully scoped output meets a 99% criterion. Broader deployment should follow that evidence, rather than a manually selected accuracy target.
 

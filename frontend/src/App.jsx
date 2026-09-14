@@ -6,6 +6,7 @@ import EvidencePanel from './EvidencePanel.jsx';
 import AnnotationPrediction from './AnnotationPrediction.jsx';
 import AnnotationEvaluation from './AnnotationEvaluation.jsx';
 import Tp53Evidence from './Tp53Evidence.jsx';
+import Brca1Evidence from './Brca1Evidence.jsx';
 import MolecularJourney from './MolecularJourney.jsx';
 import RankingPanel, {ModelCharts,PredictionEvaluation} from './RankingPanel.jsx';
 
@@ -90,6 +91,7 @@ export default function App() {
       <EvidencePanel selected={selected} />
       <AnnotationPrediction selected={selected} />
       <Tp53Evidence selected={selected} />
+      <Brca1Evidence selected={selected} />
       <RankingPanel selected={selected} />
       <AnnotationEvaluation />
       <PredictionEvaluation />

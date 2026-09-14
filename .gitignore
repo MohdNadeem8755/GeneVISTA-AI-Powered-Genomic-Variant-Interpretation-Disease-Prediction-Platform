@@ -26,3 +26,4 @@ data/demo/*
 !models/variant_prediction_v1/
 
 !data/processed/tp53_evidence_v1.json.gz
+!data/processed/brca1_mavedb_v1.json.gz

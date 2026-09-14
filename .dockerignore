@@ -21,3 +21,4 @@ frontend/.workspace-draft
 frontend/.npmrc
 
 !data/processed/tp53_evidence_v1.json.gz
+!data/processed/brca1_mavedb_v1.json.gz
