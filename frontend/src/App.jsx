@@ -5,6 +5,7 @@ import DnaAnimation from './DnaAnimation.jsx';
 import EvidencePanel from './EvidencePanel.jsx';
 import AnnotationPrediction from './AnnotationPrediction.jsx';
 import AnnotationEvaluation from './AnnotationEvaluation.jsx';
+import Tp53Evidence from './Tp53Evidence.jsx';
 import MolecularJourney from './MolecularJourney.jsx';
 import RankingPanel, {ModelCharts,PredictionEvaluation} from './RankingPanel.jsx';
 
@@ -88,6 +89,7 @@ export default function App() {
       <Detail selected={selected} onClose={closeDetail} onRetry={() => openDetail(selected.id)} />
       <EvidencePanel selected={selected} />
       <AnnotationPrediction selected={selected} />
+      <Tp53Evidence selected={selected} />
       <RankingPanel selected={selected} />
       <AnnotationEvaluation />
       <PredictionEvaluation />

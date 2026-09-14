@@ -17,6 +17,7 @@ COPY models/disease_ranking_v1/ models/disease_ranking_v1/
 COPY models/variant_prediction_v1/ models/variant_prediction_v1/
 COPY data/processed/clingen_gene_evidence_mapped.csv.gz data/processed/clingen_gene_evidence_mapped.csv.gz
 COPY data/demo/genevista.sqlite data/demo/genevista.sqlite
+COPY data/processed/tp53_evidence_v1.json.gz data/processed/tp53_evidence_v1.json.gz
 COPY deployment/ deployment/
 COPY --from=web /build/dist frontend/dist
 CMD ["python", "deployment/start.py"]

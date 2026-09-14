@@ -19,3 +19,5 @@ models/temporal_v1
 frontend/.cache
 frontend/.workspace-draft
 frontend/.npmrc
+
+!data/processed/tp53_evidence_v1.json.gz

@@ -4,6 +4,7 @@ data/*
 data/processed/*
 !data/processed/clingen_gene_evidence_mapped.csv.gz
 .runtime/
+.venv/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
@@ -23,3 +24,5 @@ data/demo/*
 !data/demo/genevista.sqlite
 
 !models/variant_prediction_v1/
+
+!data/processed/tp53_evidence_v1.json.gz

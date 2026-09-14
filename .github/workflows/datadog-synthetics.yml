@@ -27,7 +27,7 @@ jobs:
       with:
         python-version: '3.12'
     - name: Install backend test dependencies
-      run: python -m pip install -r backend/requirements.txt httpx
+      run: python -m pip install -r backend/requirements.txt httpx2
     - name: Run backend and data tests
       env:
         GENEVISTA_DB: data/demo/genevista.sqlite

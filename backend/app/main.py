@@ -14,6 +14,7 @@ from . import auth
 from .ranking import rank, evaluation
 from .prediction import predict, bundle as prediction_bundle
 from .annotation_prediction import predict as annotation_predict
+from .tp53_evidence import evidence as tp53_evidence
 from fastapi.staticfiles import StaticFiles
 
 project_root = Path(__file__).resolve().parents[2]
@@ -149,6 +150,13 @@ def annotation_evaluation():
     if not card.is_file():
         return {'status': 'not_configured'}
     return json.loads(card.read_text(encoding='utf-8'))
+
+@app.get('/api/variants/{variation_id}/tp53-evidence')
+def variant_tp53_evidence(variation_id: int = PathParameter(..., ge=1, le=9223372036854775807)):
+    record = database.detail(variation_id)
+    if record is None:
+        raise HTTPException(404, 'Variant not found.')
+    return tp53_evidence(record.get('latest_details'))
 
 frontend_dist = project_root / 'frontend/dist'
 if frontend_dist.exists():
