@@ -13,7 +13,8 @@ from .database import Database
 from . import auth
 from .ranking import rank, evaluation
 from .prediction import predict, bundle as prediction_bundle
-from .annotation_prediction import predict as annotation_predict
+from .research_progress import progress as research_progress
+from .annotation_prediction import predict as annotation_predict, model_card as annotation_model_card
 from .tp53_evidence import evidence as tp53_evidence
 from .brca1_mavedb import evidence as brca1_mavedb_evidence
 from fastapi.staticfiles import StaticFiles
@@ -144,13 +145,13 @@ def annotation_prediction(variation_id: int):
         raise HTTPException(404, 'Variant not found.')
     return annotation_predict(record.get('latest_details'), variation_id)
 
+@app.get('/api/model/research-progress')
+def model_research_progress():
+    return research_progress()
+
 @app.get('/api/model/annotation-evaluation')
 def annotation_evaluation():
-    import json
-    card = project_root / 'models/annotation_prediction_v2/model_card.json'
-    if not card.is_file():
-        return {'status': 'not_configured'}
-    return json.loads(card.read_text(encoding='utf-8'))
+    return annotation_model_card()
 
 @app.get('/api/variants/{variation_id}/tp53-evidence')
 def variant_tp53_evidence(variation_id: int = PathParameter(..., ge=1, le=9223372036854775807)):

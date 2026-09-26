@@ -2,6 +2,7 @@ const API_BASE = (import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'h
 export async function fetchApi(path, signal) {
   const response = await fetch(API_BASE + path, {
     credentials: 'include',
+    cache: 'no-store',
     signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(20000)]) : AbortSignal.timeout(20000),
   });
   if (!response.ok) {

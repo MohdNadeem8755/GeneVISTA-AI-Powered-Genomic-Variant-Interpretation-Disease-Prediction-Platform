@@ -5,6 +5,7 @@ import DnaAnimation from './DnaAnimation.jsx';
 import EvidencePanel from './EvidencePanel.jsx';
 import AnnotationPrediction from './AnnotationPrediction.jsx';
 import AnnotationEvaluation from './AnnotationEvaluation.jsx';
+import TrainingExperiments from './TrainingExperiments.jsx';
 import Tp53Evidence from './Tp53Evidence.jsx';
 import Brca1Evidence from './Brca1Evidence.jsx';
 import MolecularJourney from './MolecularJourney.jsx';
@@ -88,13 +89,14 @@ export default function App() {
       {!result && !searching && <section className="empty-results"><h2>Variant summaries</h2><p>Search for a gene or variant above to view classifications, review status, and snapshot history.</p><div className="empty-columns" aria-hidden="true"><span>Variant</span><span>Gene</span><span>Classification</span><span>History</span></div></section>}
       <Results result={result} loading={searching} onMore={() => runSearch(result.query, true)} onSelect={openDetail} />
       <Detail selected={selected} onClose={closeDetail} onRetry={() => openDetail(selected.id)} />
-      <EvidencePanel selected={selected} />
       <AnnotationPrediction selected={selected} />
+      <details className="legacy-experiment"><summary>Original sequence model and recorded evidence</summary><EvidencePanel selected={selected} /></details>
       <Tp53Evidence selected={selected} />
       <Brca1Evidence selected={selected} />
       <RankingPanel selected={selected} />
       <AnnotationEvaluation />
-      <PredictionEvaluation />
+      <TrainingExperiments />
+      <details className="legacy-experiment"><summary>Original sequence model evaluation</summary><PredictionEvaluation /></details>
       <details className="legacy-experiment"><summary>Earlier VUS reclassification experiment</summary><ModelCharts /></details>
       <MolecularJourney motion={motion} theme={theme} variant={selected?.data?.latest_details} />
       <div id="sequence"><DnaAnimation variant={selected?.data?.latest_details} motion={motion} onToggleMotion={() => setMotion(value => !value)} /></div>
