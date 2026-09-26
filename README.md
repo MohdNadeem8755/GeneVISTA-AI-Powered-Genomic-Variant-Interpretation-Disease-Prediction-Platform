@@ -1,3 +1,4 @@
+HEAD
 # GeneVISTA
 
 A research workspace for ClinVar classification history, ClinGen gene–disease evidence, exploratory disease-annotation ranking, and an interactive DNA → gene → variant → protein lesson.
@@ -54,3 +55,6 @@ Disease percentages estimate annotation matches, conditional on a record having 
 Artifacts and detailed metrics are in `models/variant_prediction_v1`. Canonical disease names are resolved from the EMBL-EBI MONDO ontology service and saved locally. Training can reuse `data/processed/variant_prediction_v1/cohort.joblib`. The full local database and training cache remain on D:; Docker includes the small saved predictor and the labeled demo database.
 
 To reproduce the nonlinear comparison, first run `python src/train_variant_prediction.py`, then `python src/improve_variant_prediction.py`. The second script compares a linear baseline and two histogram gradient-boosting candidates on a locus-disjoint inner validation split, selects by macro F1, refits on training data, and calibrates separately. It uses 256 training-selected features to bound memory. The original test was previously inspected; reported final scores are reused internal estimates, not external validation. Experiment measurements are saved in `models/variant_prediction_v1/training_experiments.json`.
+# GeneVISTA-AI-Powered-Genomic-Variant-Interpretation-Disease-Prediction-Platform
+GeneVISTA is an AI-powered genomic analysis platform for genetic variant interpretation, pathogenicity classification, disease-risk prediction, and interactive DNA → Gene → Variant → Protein visualization.
+8d3abcee2a748e4accf216297caf0ea14ca62987
