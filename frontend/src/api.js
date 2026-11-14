@@ -1,4 +1,10 @@
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://127.0.0.1:8000' : '')).replace(/\/$/, '');
+export async function askAssistant(question, mode, language = 'en-IN') {
+  const response = await fetch(API_BASE + '/api/assistant/chat', {method:'POST', credentials:'include', headers:{'Content-Type':'application/json','X-GeneVISTA-Request':'1'}, body:JSON.stringify({question,mode,language}), signal:AbortSignal.timeout(55000)});
+  const data = await response.json();
+  if (!response.ok) throw new Error(typeof data.detail === 'string' ? data.detail : 'Unable to answer.');
+  return data;
+}
 export async function fetchApi(path, signal) {
   const response = await fetch(API_BASE + path, {
     credentials: 'include',

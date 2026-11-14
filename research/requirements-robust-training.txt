@@ -1,0 +1,11 @@
+# Core; installed versions are recorded in every experiment audit.
+numpy>=1.26,<3
+pandas>=2.2,<4
+scikit-learn>=1.6,<2
+joblib>=1.4,<2
+pyarrow>=14  # Needed only to read the existing pandas/Arrow joblib cache.
+# Optional backends/resampling. The sklearn-only path needs none of these.
+imbalanced-learn>=0.13,<1
+lightgbm>=4.5,<5
+xgboost>=2.1,<4
+catboost>=1.2,<2

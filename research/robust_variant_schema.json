@@ -1,0 +1,9 @@
+{
+  "target": "clinical_significance",
+  "group": "locus_id",
+  "time": "prediction_time",
+  "label_time": "label_available_at",
+  "numeric": ["allele_frequency", "conservation", "clingen_evidence_score"],
+  "categorical": ["gene", "variant_type"],
+  "tokens": ["hpo_terms"]
+}

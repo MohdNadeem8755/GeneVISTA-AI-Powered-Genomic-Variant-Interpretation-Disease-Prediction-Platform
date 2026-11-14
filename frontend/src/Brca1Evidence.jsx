@@ -22,6 +22,7 @@ export default function Brca1Evidence({selected}) {
     {!current ? <p role="status">Matching the public BRCA1 score set…</p> : current.error ? <p role="alert">{current.error}</p> : data.status !== 'available' ? <p>{data.reason}</p> : <>
       <p><strong>{data.variant.coding_change}</strong> · {data.score_set}</p>
       <p>This saturation-genome-editing score is an auxiliary functional result. It is not a five-class prediction, diagnosis, or patient disease probability.</p>
+      <p>Negative scores are valid on this assay's normalized scale. Lower scores indicate reduced function; scores below −1.328 are classified as non-functional. The score is not an accuracy percentage.</p>
       <div className="classification-summary">
         <div><span>Functional score</span><h3>{data.score.toFixed(3)}</h3><p>{data.functional_class}</p></div>
         <div><span>Research criterion candidate</span><h3>{data.criterion_candidate || 'No criterion'}</h3><p>Requires expert review before any use.</p></div>

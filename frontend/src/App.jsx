@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ProjectAssistant from './ProjectAssistant';
 import { fetchApi, errorMessage } from './api.js';
 import { Sidebar, Stats, Results, Detail, About } from './components.jsx';
 import DnaAnimation from './DnaAnimation.jsx';
 import EvidencePanel from './EvidencePanel.jsx';
 import AnnotationPrediction from './AnnotationPrediction.jsx';
 import AnnotationEvaluation from './AnnotationEvaluation.jsx';
-import TrainingExperiments from './TrainingExperiments.jsx';
 import Tp53Evidence from './Tp53Evidence.jsx';
 import Brca1Evidence from './Brca1Evidence.jsx';
 import MolecularJourney from './MolecularJourney.jsx';
-import RankingPanel, {ModelCharts,PredictionEvaluation} from './RankingPanel.jsx';
+import RankingPanel, {ModelCharts} from './RankingPanel.jsx';
 
 export default function App() {
   const [theme,setTheme] = useState(()=>{try{return localStorage.getItem('genevista-theme')==='light'?'light':'dark';}catch{return 'dark';}});
@@ -95,8 +95,7 @@ export default function App() {
       <Brca1Evidence selected={selected} />
       <RankingPanel selected={selected} />
       <AnnotationEvaluation />
-      <TrainingExperiments />
-      <details className="legacy-experiment"><summary>Original sequence model evaluation</summary><PredictionEvaluation /></details>
+      <ProjectAssistant />
       <details className="legacy-experiment"><summary>Earlier VUS reclassification experiment</summary><ModelCharts /></details>
       <MolecularJourney motion={motion} theme={theme} variant={selected?.data?.latest_details} />
       <div id="sequence"><DnaAnimation variant={selected?.data?.latest_details} motion={motion} onToggleMotion={() => setMotion(value => !value)} /></div>

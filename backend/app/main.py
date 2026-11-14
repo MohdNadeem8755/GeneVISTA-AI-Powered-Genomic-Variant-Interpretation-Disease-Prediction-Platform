@@ -1,6 +1,7 @@
 """Run from project root: python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000"""
 
 import logging
+import json
 import os
 import sqlite3
 from pathlib import Path
@@ -10,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .database import Database
-from . import auth
+from . import auth, assistant
 from .ranking import rank, evaluation
 from .prediction import predict, bundle as prediction_bundle
 from .research_progress import progress as research_progress
@@ -36,6 +37,7 @@ app.add_middleware(
 
 
 app.include_router(auth.router)
+app.include_router(assistant.router)
 
 def prediction_support(result):
     return {'clinical_class_probability':result['status']=='available',
@@ -152,6 +154,35 @@ def model_research_progress():
 @app.get('/api/model/annotation-evaluation')
 def annotation_evaluation():
     return annotation_model_card()
+
+
+@app.get('/api/model/latest-training-evaluation')
+def latest_training_evaluation():
+    directory = project_root / 'reports/biological_retuning_fresh_20261031'
+    if not (directory / 'selection.json').is_file():
+        return {'status': 'not_configured'}
+    selection = json.loads((directory / 'selection.json').read_text())
+    audit = json.loads((directory / 'data_audit.json').read_text())
+    corrected_path = project_root / 'reports/biological_corrected_20261109/selection.json'
+    corrected = json.loads(corrected_path.read_text()) if corrected_path.is_file() else None
+    corrected_evaluation_path = corrected_path.parent / 'partition_evaluation.json'
+    corrected_evaluation = json.loads(corrected_evaluation_path.read_text()) if corrected_evaluation_path.is_file() else None
+    if corrected_evaluation and (not corrected or corrected_evaluation.get('status') != 'complete' or corrected_evaluation.get('model_sha256') != corrected['model_sha256']):
+        raise HTTPException(503, 'Latest candidate evaluation does not match the selected model.')
+    evaluation_path = directory / 'partition_evaluation.json'
+    evaluation = json.loads(evaluation_path.read_text()) if evaluation_path.is_file() else None
+    if evaluation and (evaluation.get('status') != 'complete' or
+                       evaluation.get('model_sha256') != selection['model_sha256']):
+        raise HTTPException(503, 'Partition evaluation does not match the selected model.')
+    return {'status': 'available', 'model_id': 'biological_retuning_fresh_20261031',
+            'validation': selection['selected'], 'data_audit': audit,
+            'deployed': False, 'test_evaluated': evaluation is not None,
+            'partition_evaluation': evaluation,
+            'corrected_candidate': None if corrected is None else {
+                'model_id': 'biological_corrected_20261109',
+                'validation': corrected['selected'], 'deployed': False,
+                'test_evaluated': corrected_evaluation is not None,
+                'partition_evaluation': corrected_evaluation}}
 
 @app.get('/api/variants/{variation_id}/tp53-evidence')
 def variant_tp53_evidence(variation_id: int = PathParameter(..., ge=1, le=9223372036854775807)):

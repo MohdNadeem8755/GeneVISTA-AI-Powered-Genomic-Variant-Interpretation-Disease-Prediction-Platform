@@ -10,7 +10,7 @@ export function Sidebar({ motion }) {
   return <aside className="sidebar">
     <a className="brand" href="#overview" aria-label="GeneVISTA home"><DnaLogo motion={motion} />Gene<span>VISTA</span></a>
     <div className="brand-caption">Genomic Variant Intelligence</div>
-    <nav aria-label="Main navigation"><a href="#explorer">Variant search</a><a href="#predictions">Disease evidence</a><a href="#disease-ranking">Disease model</a><a href="#model-charts">Performance charts</a><a href="#molecular">Molecular studio</a><a href="#settings">Settings</a></nav>
+    <nav aria-label="Main navigation"><a href="#explorer">Variant search</a><a href="#predictions">Disease evidence</a><a href="#disease-ranking">Disease model</a><a href="#annotation-model-quality">Model accuracy</a><a href="#molecular">Molecular studio</a><a href="#settings">Settings</a></nav>
   </aside>;
 }
 export function Stats({ data }) {

@@ -4,7 +4,7 @@ import gzip
 from itertools import islice
 from pathlib import Path
 
-SNAPSHOTS = ('2022-01', '2023-01', '2024-01', '2025-01', '2026-01', '2026-09')
+SNAPSHOTS = ('2022-01', '2023-01', '2024-01', '2025-01', '2026-01', '2026-09', '2026-10-05')
 CLINVAR_COLUMNS = ('VariationID', '#AlleleID', 'Type', 'Name', 'GeneID', 'GeneSymbol',
     'HGNC_ID', 'ClinicalSignificance', 'ClinSigSimple', 'LastEvaluated', 'PhenotypeIDS',
     'PhenotypeList', 'Origin', 'OriginSimple', 'Assembly', 'Chromosome', 'Start', 'Stop',
