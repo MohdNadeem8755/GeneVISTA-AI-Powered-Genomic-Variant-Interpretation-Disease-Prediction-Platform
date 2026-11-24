@@ -38,7 +38,7 @@ class AssistantTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder, patch.object(assistant, 'ROOT', Path(folder)):
             result = self.ask('latest scores').json()
         self.assertIn('No saved candidate score report is available', result['answer'])
-        self.assertEqual(result['sources'], ['Project guide'])
+        self.assertEqual(result['sources'], [])
 
     def test_unknown_not_fabricated(self):
         self.assertIn('cannot answer', self.ask('xyzxyz').json()['answer'])

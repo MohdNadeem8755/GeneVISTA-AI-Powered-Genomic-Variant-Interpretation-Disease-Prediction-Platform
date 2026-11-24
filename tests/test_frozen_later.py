@@ -7,7 +7,9 @@ from src.evaluate_frozen_later import freeze
 
 class FrozenLaterTests(unittest.TestCase):
     def test_freeze_occurs_before_labels_and_is_non_overwritable(self):
-        with tempfile.TemporaryDirectory(dir='D:/GeneVISTA/.runtime') as tmp:
+        runtime = Path(__file__).resolve().parents[1] / '.runtime'
+        runtime.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=runtime) as tmp:
             target=Path(tmp)/'run'
             freeze(target,'2026-10-26')
             text=(target/'frozen_protocol.json').read_text()
