@@ -9,7 +9,7 @@ class DatasetValidationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             report = validate_datasets(folder)
         self.assertEqual(report['passed'], 0)
-        self.assertEqual(report['expected'], 10)
+        self.assertEqual(report['expected'], 11)
 
     def test_shifted_clingen_header_and_separator(self):
         with tempfile.TemporaryDirectory() as folder:

@@ -75,6 +75,8 @@ def chat(body: Question, request: Request):
                     if isinstance(row, dict) and 'precision' in row:
                         answer += f"\n{name}: precision {row['precision']:.2%}, recall {row['recall']:.2%}."
                 sources.append(str(path.relative_to(ROOT)))
+            else:
+                answer += '\n\nNo saved candidate score report is available in this checkout, so I cannot provide its validation metrics.'
         fallback = 'इस सवाल का जवाब मेरे ऑफलाइन गाइड में नहीं है। प्रोजेक्ट, डेटा, ट्रेनिंग या स्कोर के बारे में पूछिए। खुली बातचीत के लिए लोकल या ऑनलाइन एआई सेट करना होगा।' if body.language == 'hi-IN' else 'The offline guide cannot answer that question. Try project, dataset, training, scores, or features; configured local/online AI supports broader questions.'
         return {'answer': answer.strip() or fallback, 'sources': sources, 'mode': 'Offline topic guide'}
     if not status()[body.mode]:

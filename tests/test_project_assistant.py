@@ -1,7 +1,11 @@
 import unittest
+import json
+import tempfile
+from pathlib import Path
 from unittest.mock import patch
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from backend.app import assistant
 from backend.app.assistant import router
 
 
@@ -16,10 +20,25 @@ class AssistantTests(unittest.TestCase):
                                 headers={'X-GeneVISTA-Request': '1'})
 
     def test_saved_scores_labelled_validation(self):
-        result = self.ask('latest scores').json()
+        with tempfile.TemporaryDirectory() as folder:
+            report = Path(folder) / 'reports/biological_corrected_20261109/selection.json'
+            report.parent.mkdir(parents=True)
+            report.write_text(json.dumps({'selected': {
+                'accuracy': 0.91,
+                'balanced_accuracy': 0.63,
+                'classification_report': {}
+            }}), encoding='utf-8')
+            with patch.object(assistant, 'ROOT', Path(folder)):
+                result = self.ask('latest scores').json()
         self.assertIn('VALIDATION', result['answer'])
         self.assertIn('Not deployed', result['answer'])
         self.assertTrue(result['sources'])
+
+    def test_scores_work_without_untracked_report(self):
+        with tempfile.TemporaryDirectory() as folder, patch.object(assistant, 'ROOT', Path(folder)):
+            result = self.ask('latest scores').json()
+        self.assertIn('No saved candidate score report is available', result['answer'])
+        self.assertEqual(result['sources'], ['Project guide'])
 
     def test_unknown_not_fabricated(self):
         self.assertIn('cannot answer', self.ask('xyzxyz').json()['answer'])
